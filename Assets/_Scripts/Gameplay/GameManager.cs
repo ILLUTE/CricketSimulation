@@ -33,58 +33,116 @@ public class GameManager : MonoBehaviour
     public static event Action<int> OnOverFinished;
     #endregion
 
-    public void OnDeliveryTypeSelectedMethod()
+    [SerializeField]
+    private Batting batting;
+    [SerializeField]
+    private BowlingDelivery bowling;
+
+    public void DeliveryTypeSelected()
     {
         OnDeliveryTypeSelected?.Invoke();
     }
 
-    public void OnDeliveryStartedMethod(Ball ball)
+    public void DeliveryStarted(Ball ball)
     {
         OnDeliveryStarted?.Invoke(ball);
     }
 
-    public void OnDeliveryCompletedMethod(Ball ball)
+    public void DeliveryCompleted(Ball ball)
     {
         OnDeliveryCompleted?.Invoke(ball);
     }
 
-    public void OnShotSelectedMethod()
+    public void ShotSelected()
     {
         OnShotSelected?.Invoke();
     }
 
-    public void OnShotStartedMethod(Ball ball)
+    public void ShotStarted(Ball ball)
     {
         OnShotStarted?.Invoke(ball);
     }
 
-    public void OnShotPlayedMethod(int runs)
+    public void ShotPlayed(int runs)
     {
         OnShotPlayed?.Invoke(runs);
     }
 
-    public void OnGameOverMethod(GameOverScenario scenario)
+    public void GameOver(GameOverScenario scenario)
     {
         OnGameOver?.Invoke(scenario);
     }
 
-    public void OnGameStartedMethod()
+    public void GameStarted()
     {
         OnGameStarted?.Invoke();
     }
 
-    public void OnScoreUpdateMethod(CricketScore score)
+    public void ScoreUpdate(CricketScore score)
     {
         OnScoreUpdate?.Invoke(score);
     }
 
-    public void OnOverFinishedMethod(int overNum)
+    public void OverFinished(int overNum)
     {
         OnOverFinished?.Invoke(overNum);
     }
 
     public void ResetData()
     {
-        OnGameStartedMethod();
+        GameStarted();
+    }
+
+    public int GetRunsAsInt(Runs m_Runs)
+    {
+        return m_Runs switch
+        {
+            Runs.Wicket => -2,
+            Runs.None => -1,
+            Runs.Zero => 0,
+            Runs.One => 1,
+            Runs.Two => 2,
+            Runs.Four => 4,
+            Runs.Six => 6,
+            _ => -1,
+        };
+    }
+
+    public float GetProbability(Runs m_Runs)
+    {
+        if (m_Runs.Equals(Runs.Wicket) || m_Runs.Equals(Runs.None))
+        {
+            return 0;
+        }
+
+        return batting.probabilty[(int)m_Runs];
+    }
+
+    public void SetBattingRuns(Runs runs)
+    {
+        batting.SetRuns(runs);
+    }
+
+
+    // Bowling
+
+    public void SetBowlingSpeed(BowlSpeed speed)
+    {
+        bowling.SetBowlSpeed(speed);
+    }
+
+    public void SetBowlingLength(Transform temp)
+    {
+        bowling.SetBowlingLength(temp.position);
+    }
+
+    public void InitiateBowling()
+    {
+        bowling.InitiateBowling();
+    }
+
+    public bool IsBowlingSpeedSelected()
+    {
+        return bowling.ballSpeed != BowlSpeed.None;
     }
 }

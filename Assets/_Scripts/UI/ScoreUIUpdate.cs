@@ -20,8 +20,8 @@ public class ScoreUIUpdate : MonoBehaviour
     {
         m_TotalScore.text = string.Format("{0}/{1}", score.totalRuns, score.totalWicketsOut);
 
-        int balls = score.totalballsBowled;
-
-        m_Overs.text = string.Format("Overs {0}.{1}", balls / 6, balls % 6);
+        int balls = score.m_TargetScore.maxBalls - score.totalballsBowled;
+        int scoreLeft = score.m_TargetScore.ChasingTotal - score.totalRuns;
+        m_Overs.text = string.Format("Need {2} runs {0}.{1} overs", balls / 6, balls % 6, scoreLeft);
     }
 }

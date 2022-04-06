@@ -18,8 +18,8 @@ public class BattingButton : MonoBehaviour
     public void OnSetButton(BattingUI battingUI)
     {
         m_battingUI = battingUI;
-        battingRuns.text = Batting.Instance.GetRunsAsInt(m_Runs).ToString() ;
-        battingProbability.text = string.Format("{0}%", Batting.Instance.GetProbability(m_Runs) * 100);
+        battingRuns.text = GameManager.Instance.GetRunsAsInt(m_Runs).ToString() ;
+        battingProbability.text = string.Format("{0}%", GameManager.Instance.GetProbability(m_Runs) * 100);
     }
 
     public void OnSelected()

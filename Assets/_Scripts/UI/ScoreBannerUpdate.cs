@@ -20,7 +20,8 @@ public class ScoreBannerUpdate : MonoBehaviour
     private void ResetScore()
     {
         m_CricketScore = new CricketScore();
-        GameManager.Instance.OnScoreUpdateMethod(m_CricketScore);
+        m_CricketScore.m_TargetScore = m_Target;
+        GameManager.Instance.ScoreUpdate(m_CricketScore);
     }
 
     private void OnShotPlayed(int runs)
@@ -36,22 +37,22 @@ public class ScoreBannerUpdate : MonoBehaviour
             m_CricketScore.totalRuns += runs;
         }
 
-        GameManager.Instance.OnScoreUpdateMethod(m_CricketScore);
+        GameManager.Instance.ScoreUpdate(m_CricketScore);
 
-        if(CheckIfOverFinished())
+        if (CheckIfOverFinished())
         {
-            GameManager.Instance.OnOverFinishedMethod(m_CricketScore.totalballsBowled / 6); // Can use it to tell if an over is done.
+            GameManager.Instance.OverFinished(m_CricketScore.totalballsBowled / 6); // Can use it to tell if an over is done.
         }
 
         if (CheckGameOver())
         {
-            GameManager.Instance.OnGameOverMethod(GetScenario());
+            GameManager.Instance.GameOver(GetScenario());
         }
     }
 
     private bool CheckIfOverFinished()
     {
-        if(m_CricketScore.totalballsBowled>0)
+        if (m_CricketScore.totalballsBowled > 0)
         {
             return m_CricketScore.totalballsBowled % 6 == 0;
         }
@@ -74,7 +75,7 @@ public class ScoreBannerUpdate : MonoBehaviour
         {
             return GameOverScenario.TargetChased;
         }
-        else if (m_CricketScore.totalRuns == m_Target.ChasingTotal - 1 && (m_CricketScore.totalballsBowled >= m_Target.maxBalls) || m_CricketScore.totalWicketsOut >= m_Target.maxWickets)
+        else if ((m_CricketScore.totalRuns == m_Target.ChasingTotal - 1) && ((m_CricketScore.totalballsBowled >= m_Target.maxBalls) || m_CricketScore.totalWicketsOut >= m_Target.maxWickets))
         {
             return GameOverScenario.MatchTied;
         }
@@ -97,6 +98,8 @@ public class CricketScore
     public int totalRuns;
     public int totalballsBowled;
     public int totalWicketsOut;
+
+    public TargetScore m_TargetScore;
 }
 
 [Serializable]

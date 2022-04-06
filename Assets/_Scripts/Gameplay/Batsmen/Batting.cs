@@ -6,20 +6,6 @@ using DG.Tweening;
 
 public class Batting : MonoBehaviour
 {
-    private static Batting instance;
-
-    public static Batting Instance
-    {
-        get
-        {
-            if(instance == null)
-            {
-                instance = FindObjectOfType<Batting>();
-            }
-
-            return instance;
-        }
-    }
     public Transform[] offSideTransform;
     public Transform[] onSideTransform;
 
@@ -27,7 +13,7 @@ public class Batting : MonoBehaviour
 
     public Transform batTransform;
 
-    private float[] probabilty = new float[] { 1.0f, 0.9f, 0.85f, 0.6f, 0.35f, 0.2f };
+    public float[] probabilty = new float[] { 1.0f, 0.9f, 0.85f, 0.6f, 0.35f, 0.2f };
 
     private void Awake()
     {
@@ -45,36 +31,15 @@ public class Batting : MonoBehaviour
         }
         else
         {
-            runsToScore = x > 0.5f ? Runs.Wicket : Runs.None;
+            runsToScore = x > 0.8f ? Runs.Wicket : Runs.None; // 20% Chance of a wicket if shot not registered.
         }
 
-        GameManager.Instance.OnShotSelectedMethod();
+        GameManager.Instance.ShotSelected();
     }
 
-    public float GetProbability(Runs m_Runs)
-    {
-        if (m_Runs.Equals(Runs.Wicket) || m_Runs.Equals(Runs.None))
-        {
-            return 0;
-        }
+   
 
-        return probabilty[(int)m_Runs];
-    }
-
-    public int GetRunsAsInt(Runs m_Runs)
-    {
-        return m_Runs switch
-        {
-            Runs.Wicket => -2,
-            Runs.None => -1,
-            Runs.Zero => 0,
-            Runs.One => 1,
-            Runs.Two => 2,
-            Runs.Four => 4,
-            Runs.Six => 6,
-            _ => -1,
-        };
-    }
+   
 
     private void PlayAShot(Ball ball)
     {
@@ -97,12 +62,12 @@ public class Batting : MonoBehaviour
 
     private void OnShotStartedRoutine(Ball ball)
     {
-        GameManager.Instance.OnShotStartedMethod(ball);
+        GameManager.Instance.ShotStarted(ball);
     }
 
     private void OnShortEndedRoutine(Runs runs, Ball ball)
     {
-        GameManager.Instance.OnShotPlayedMethod(GetRunsAsInt(runsToScore));
+        GameManager.Instance.ShotPlayed(GameManager.Instance.GetRunsAsInt(runsToScore));
         ResetBat();
         Destroy(ball.gameObject);
     }

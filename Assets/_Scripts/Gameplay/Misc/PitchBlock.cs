@@ -13,7 +13,7 @@ public class PitchBlock : MonoBehaviour, IDropHandler, IPointerClickHandler, IPo
     {
         get
         {
-            return BowlingDelivery.Instance.bowlSpeed != BowlSpeed.None;
+            return GameManager.Instance.IsBowlingSpeedSelected();
         }
     }
     private static bool IsSetPosition = false;
@@ -42,7 +42,7 @@ public class PitchBlock : MonoBehaviour, IDropHandler, IPointerClickHandler, IPo
     {
         if (BallSelected)
         {
-            BowlingDelivery.Instance.SetBowlingLength(block_pos.position);
+            GameManager.Instance.SetBowlingLength(block_pos);
 
             IsSetPosition = true;
         }
@@ -58,9 +58,9 @@ public class PitchBlock : MonoBehaviour, IDropHandler, IPointerClickHandler, IPo
 
             if (temp != null)
             {
-                BowlingDelivery.Instance.SetBowlSpeed(temp.bowlType);
+                GameManager.Instance.SetBowlingSpeed(temp.bowlType);
                 SetPosition();
-                BowlingDelivery.Instance.InitiateBowling();
+                GameManager.Instance.InitiateBowling();
             }
         }
     }

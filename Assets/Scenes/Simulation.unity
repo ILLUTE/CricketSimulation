@@ -957,7 +957,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 329628988}
+  m_TargetGraphic: {fileID: 1791015352}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -2969,6 +2969,13 @@ MonoBehaviour:
   - {fileID: 361088085}
   - {fileID: 728996563}
   batTransform: {fileID: 1078633908}
+  probabilty:
+  - 1
+  - 0.9
+  - 0.85
+  - 0.6
+  - 0.35
+  - 0.2
 --- !u!1 &906042850
 GameObject:
   m_ObjectHideFlags: 0
@@ -5064,10 +5071,10 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: 0}
-  m_SizeDelta: {x: 700, y: 100}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 150, y: 0}
+  m_SizeDelta: {x: -300, y: 100}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1568401942
 GameObject:
   m_ObjectHideFlags: 0
@@ -5900,6 +5907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91959bf57045b4a88b973ac126905ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batting: {fileID: 877571991}
+  bowling: {fileID: 877571990}
 --- !u!4 &1662959546
 Transform:
   m_ObjectHideFlags: 0
@@ -6057,7 +6066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target:
-    maxBalls: 6
+    maxBalls: 20
     ChasingTotal: 60
     maxWickets: 5
 --- !u!4 &1752517140
@@ -6516,7 +6525,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Overs 3.5
+  m_text: Need  {} runs in {}.{} Overs
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84b2d967095cf4894ad9c9d821fb8f7a, type: 2}
   m_sharedMaterial: {fileID: -2798522377218591014, guid: 84b2d967095cf4894ad9c9d821fb8f7a, type: 2}

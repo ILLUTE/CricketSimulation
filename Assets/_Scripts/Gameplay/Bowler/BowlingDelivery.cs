@@ -17,22 +17,7 @@ public class BowlingDelivery : MonoBehaviour
 
     private bool simulating;
 
-    public BowlSpeed bowlSpeed { get; private set; } = BowlSpeed.None;
-
-    private static BowlingDelivery instance;
-
-    public static BowlingDelivery Instance
-    {
-        get
-        {
-            if(instance == null)
-            {
-                instance = FindObjectOfType<BowlingDelivery>();
-            }
-
-            return instance;
-        }
-    }
+    public BowlSpeed ballSpeed { get; private set; } = BowlSpeed.None;
 
     private void Awake()
     {
@@ -47,13 +32,13 @@ public class BowlingDelivery : MonoBehaviour
 
     private void OnDeliverFinished(Ball obj)
     {
-        bowlSpeed = BowlSpeed.None;
+        ballSpeed = BowlSpeed.None;
         simulating = false;
     }
 
     public void SetBowlingLength(Vector3 pos)
     {
-        if (!bowlSpeed.Equals(BowlSpeed.None))
+        if (!ballSpeed.Equals(BowlSpeed.None))
         {
             deliverLength = new Vector3(pos.x, 0.25f, pos.z);
 
@@ -63,9 +48,9 @@ public class BowlingDelivery : MonoBehaviour
 
     public void InitiateBowling()
     {
-        if (!simulating && !bowlSpeed.Equals(BowlSpeed.None))
+        if (!simulating && !ballSpeed.Equals(BowlSpeed.None))
         {
-            GameManager.Instance.OnDeliveryTypeSelectedMethod();
+            GameManager.Instance.DeliveryTypeSelected();
         }
     }
 
@@ -82,20 +67,20 @@ public class BowlingDelivery : MonoBehaviour
 
     public void SetBowlSpeed(BowlSpeed speed)
     {
-        bowlSpeed = speed;
+        ballSpeed = speed;
     }
 
     private IEnumerator Simulation(Ball ball)
     {
         yield return null;
 
-        ball.SetPosition(deliverLength, bowlSpeed, () =>
+        ball.SetPosition(deliverLength, ballSpeed, () =>
         {
-            GameManager.Instance.OnDeliveryStartedMethod(ball);
+            GameManager.Instance.DeliveryStarted(ball);
 
-            ball.SetPosition(new Vector3(ball.ballTransform.position.x, 0.7f, 2), bowlSpeed, () =>
+            ball.SetPosition(new Vector3(ball.ballTransform.position.x, 0.7f, 2), ballSpeed, () =>
             {
-                GameManager.Instance.OnDeliveryCompletedMethod(ball);
+                GameManager.Instance.DeliveryCompleted(ball);
             });
         });
     }

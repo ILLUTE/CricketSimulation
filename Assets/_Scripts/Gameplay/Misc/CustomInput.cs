@@ -71,7 +71,7 @@ public class CustomInput : MonoBehaviour, IPointerClickHandler, IBeginDragHandle
     {
         m_RectTransform.DOJumpAnchorPos(m_RectTransform.anchoredPosition, 0.1f, 1, 0.5f).OnComplete(() =>
         {
-            BowlingDelivery.Instance.SetBowlSpeed(bowlType);
+            GameManager.Instance.SetBowlingSpeed(bowlType);
         });
     }
 }

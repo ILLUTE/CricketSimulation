@@ -46,6 +46,6 @@ public class BattingUI : MonoBehaviour
 
     public void OnRunsSelected(Runs m_Runs)
     {
-        Batting.Instance.SetRuns(m_Runs);
+        GameManager.Instance.SetBattingRuns(m_Runs);
     }
 }
